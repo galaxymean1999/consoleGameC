@@ -1,41 +1,71 @@
 #include "engine.h"
+#include <stdio.h>
+#include <unistd.h>
+#include <string.h>
+#include <ctype.h>
+#include <stdlib.h>
+#include <sys/ioctl.h>
+#include <termios.h>
+#include <fcntl.h>
 
-void verline(int x, int y1, int y2, char type, char *screen_buffer) {
-    for (int y = y1; y <= y2; y++) {
-        screen_buffer[y*SCREENWIDTH + x] = type;
+void verLine(int x, int y1, int y2, char *screenBuff, char type) {
+    for (int y = y1; y < y2; y++) {
+        screenBuff[x + y * 120] = type;
     }
 }
 
-void horline(int x1, int x2, int y, char type, char *screen_buffer) {
-    for (int x = x1; x <= x2; x++) {
-        screen_buffer[y*SCREENWIDTH + x] = type;
+void horLine(int x1, int x2, int y, char *screenBuff, char type) {
+    for (int x = x1; x < x2; x++) {
+        screenBuff[x + y * 120] = type;
     }
 }
 
-void initscrbuffer(char *screen_buffer) {
-    for (int i = 0; i < SCREENWIDTH * SCREENHEIGHT; i++) {
-        screen_buffer[i] = ' ';
+void clearBuff(char *screenBuff, char type) {
+    for (int i = 0; i < 120 * 40; i++) {
+        screenBuff[i] = type;
     }
 }
 
-void drawbuffer(char *screen_buffer) {
-    system("clear");
+void setPixel(int x, int y, char *screenBuff, char type) {
+    screenBuff[x + y * 120] = type;
+}
 
-    for (int y = 0; y < SCREENHEIGHT; y++) {
-        for (int x = 0; x < SCREENWIDTH; x++) {
-            printf("%c", screen_buffer[y*SCREENWIDTH + x]);
+void writeBuff(char *screenBuff) {
+    for (int line = 0; line < 40; line++) {
+        for (int x = 0; x < 120; x++) {
+            printf("%c", screenBuff[line * 120 + x]);
         }
-        printf("*\n");
-    }
-    for (int i = 0; i <= SCREENWIDTH; i++) {
-        printf("*");
+
+        printf("\n");
     }
 }
 
-void update() {
-    
+void msleep(int ms) {
+    usleep(ms * 1000);
 }
 
-void draw(char *screen_buffer) {
-    
+int kbhit(void) {
+  struct termios oldt, newt;
+  int ch;
+  int oldf;
+ 
+  tcgetattr(STDIN_FILENO, &oldt);
+  newt = oldt;
+  newt.c_lflag &= ~(ICANON | ECHO);
+  tcsetattr(STDIN_FILENO, TCSANOW, &newt);
+  oldf = fcntl(STDIN_FILENO, F_GETFL, 0);
+  fcntl(STDIN_FILENO, F_SETFL, oldf | O_NONBLOCK);
+ 
+  ch = getchar();
+ 
+  tcsetattr(STDIN_FILENO, TCSANOW, &oldt);
+  fcntl(STDIN_FILENO, F_SETFL, oldf);
+ 
+  if(ch != EOF)
+  {
+    ungetc(ch, stdin);
+    return 1;
+  }
+ 
+  return 0;
 }
