@@ -10,30 +10,30 @@
 
 void verLine(int x, int y1, int y2, char *screenBuff, char type) {
     for (int y = y1; y < y2; y++) {
-        screenBuff[x + y * 120] = type;
+        screenBuff[x + y * SCREEN_WIDTH] = type;
     }
 }
 
 void horLine(int x1, int x2, int y, char *screenBuff, char type) {
     for (int x = x1; x < x2; x++) {
-        screenBuff[x + y * 120] = type;
+        screenBuff[x + y * SCREEN_WIDTH] = type;
     }
 }
 
 void clearBuff(char *screenBuff, char type) {
-    for (int i = 0; i < 120 * 40; i++) {
+    for (int i = 0; i < SCREEN_WIDTH * SCREEN_HEIGHT; i++) {
         screenBuff[i] = type;
     }
 }
 
 void setPixel(int x, int y, char *screenBuff, char type) {
-    screenBuff[x + y * 120] = type;
+    screenBuff[x + y * SCREEN_WIDTH] = type;
 }
 
 void writeBuff(char *screenBuff) {
     for (int line = 0; line < 40; line++) {
-        for (int x = 0; x < 120; x++) {
-            printf("%c", screenBuff[line * 120 + x]);
+        for (int x = 0; x < SCREEN_WIDTH; x++) {
+            printf("%c", screenBuff[line * SCREEN_WIDTH + x]);
         }
 
         printf("\n");

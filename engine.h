@@ -1,3 +1,6 @@
+#define SCREEN_WIDTH 160
+#define SCREEN_HEIGHT 40
+
 void verLine(int x, int y1, int y2, char *screenBuff, char type);
 
 void horLine(int x1, int x2, int y, char *screenBuff, char type);

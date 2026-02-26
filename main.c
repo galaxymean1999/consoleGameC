@@ -2,7 +2,7 @@
 #include <time.h>
 #include "engine.h"
 
-char screenBuffer[120*40];
+char screenBuffer[SCREEN_WIDTH * SCREEN_HEIGHT];
 
 int running = 1;
 
@@ -13,19 +13,19 @@ void checkKeys(char key) {
     if (key == 'w' && y > 0) {
         y--;
     }
-    if (key == 's' && y < 39) {
+    if (key == 's' && y < SCREEN_HEIGHT - 1) {
         y++;
     }
     if (key == 'a' && x > 0) {
         x--;
     }
-    if (key == 'd' && x < 119) {
+    if (key == 'd' && x < SCREEN_WIDTH - 1) {
         x++;
     }
 }
 
 int main() {
-    system("clear");
+    
 
     while (running == 1) {
         clock_t t = clock();
@@ -40,6 +40,7 @@ int main() {
         
         setPixel((int)x, (int)y, &screenBuffer, '#');
 
+        system("clear");
         writeBuff(&screenBuffer);
         
         t = clock() - t;
