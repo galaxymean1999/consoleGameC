@@ -6,27 +6,28 @@ char screenBuffer[SCREEN_WIDTH * SCREEN_HEIGHT];
 
 int running = 1;
 
-double x = 0.0;
-double y = 0.0;
+int carPosX = SCREEN_WIDTH / 2 - 2;
+
+const char carTexture[] = {  
+    ' ','#','#','#',' ',
+    'o','-','#','-','o',
+    ' ','#','#','#',' ',
+    ' ','#','#','#',' ',
+    ' ','#','#','#',' ',
+    'O','-','#','-','O',
+    '#','#','#','#','#'
+};
 
 void checkKeys(char key) {
-    if (key == 'w' && y > 0) {
-        y--;
+    if (key == 'a' && carPosX > 0) {
+        carPosX--;
     }
-    if (key == 's' && y < SCREEN_HEIGHT - 1) {
-        y++;
-    }
-    if (key == 'a' && x > 0) {
-        x--;
-    }
-    if (key == 'd' && x < SCREEN_WIDTH - 1) {
-        x++;
+    if (key == 'd' && carPosX < SCREEN_WIDTH - 6) {
+        carPosX++;
     }
 }
 
 int main() {
-    
-
     while (running == 1) {
         clock_t t = clock();
         
@@ -37,13 +38,11 @@ int main() {
         }
 
         clearBuff(&screenBuffer, ' ');
-        
-        setPixel((int)x, (int)y, &screenBuffer, '#');
 
-        drawRect(5, 5, 10, 5, &screenBuffer, 'X');
+        drawSprite(carPosX, 30, 5, 7 , screenBuffer, carTexture);
 
         system("clear");
-        writeBuff(&screenBuffer);
+        writeBuff(screenBuffer);
         
         t = clock() - t;
         double time_taken = ((double)t)/CLOCKS_PER_SEC * 1000;

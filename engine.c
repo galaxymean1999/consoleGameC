@@ -58,6 +58,14 @@ void fillRect(int x, int y, int width, int height, char *screenBuff, char type) 
     }
 }
 
+void drawSprite(int x, int y, int width, int height, char *screenBuff, char *texture) {
+    for (int currentY = 0; currentY < height; currentY++) {
+        for (int currentX = 0; currentX < width; currentX++) {
+            screenBuff[x + currentX + (y + currentY) * SCREEN_WIDTH] = texture[currentX + currentY * width];
+        }
+    }
+}
+
 int kbhit(void) {
   struct termios oldt, newt;
   int ch;

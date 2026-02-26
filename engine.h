@@ -8,6 +8,8 @@ void horLine(int x1, int x2, int y, char *screenBuff, char type);
 void drawRect(int x, int y, int width, int height, char *screenBuff, char type);
 void fillRect(int x, int y, int width, int height, char *screenBuff, char type);
 
+void drawSprite(int x, int y, int width, int height, char *screenBuff, char *texture);
+
 void clearBuff(char *screenBuff, char type);
 
 void setPixel(int x, int y, char *screenBuff, char type);
