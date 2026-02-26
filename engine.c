@@ -44,6 +44,20 @@ void msleep(int ms) {
     usleep(ms * 1000);
 }
 
+void drawRect(int x, int y, int width, int height, char *screenBuff, char type) {
+    horLine(x, x + width -1, y, screenBuff, type);
+    horLine(x, x + width, y + height -1, screenBuff, type);
+
+    verLine(x, y, y + height -1, screenBuff, type);
+    verLine(x + width -1, y, y + height -1, screenBuff, type);
+}
+
+void fillRect(int x, int y, int width, int height, char *screenBuff, char type) {
+    for (int yPos = y; yPos < y + height; yPos++) {
+        horLine(x, x + width, yPos, screenBuff, type);
+    }
+}
+
 int kbhit(void) {
   struct termios oldt, newt;
   int ch;

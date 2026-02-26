@@ -40,6 +40,8 @@ int main() {
         
         setPixel((int)x, (int)y, &screenBuffer, '#');
 
+        drawRect(5, 5, 10, 5, &screenBuffer, 'X');
+
         system("clear");
         writeBuff(&screenBuffer);
         
