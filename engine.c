@@ -31,6 +31,8 @@ void setPixel(int x, int y, char *screenBuff, char type) {
 }
 
 void writeBuff(char *screenBuff) {
+    setCursorPosition(0, 0);
+
     for (int line = 0; line < 40; line++) {
         for (int x = 0; x < SCREEN_WIDTH; x++) {
             printf("%c", screenBuff[line * SCREEN_WIDTH + x]);
@@ -61,9 +63,27 @@ void fillRect(int x, int y, int width, int height, char *screenBuff, char type) 
 void drawSprite(int x, int y, int width, int height, char *screenBuff, char *texture) {
     for (int currentY = 0; currentY < height; currentY++) {
         for (int currentX = 0; currentX < width; currentX++) {
+            if (texture[currentX + currentY * width] == ' ') {
+                continue;
+            }
             screenBuff[x + currentX + (y + currentY) * SCREEN_WIDTH] = texture[currentX + currentY * width];
         }
     }
+}
+
+void drawSpriteFlipped(int x, int y, int width, int height, char *screenBuff, char *texture) {
+    for (int currentY = 0; currentY < height; currentY++) {
+        for (int currentX = 0; currentX < width; currentX++) {
+            if (texture[currentX + currentY * width] == ' ') {
+                continue;
+            }
+            screenBuff[x + currentX + (y + currentY) * SCREEN_WIDTH] = texture[(height - 1) * (width) + currentX - currentY * width];
+        }
+    }
+}
+
+void setCursorPosition(int x,int y) {
+    printf("%c[%d;%df",0x1B,y,x);
 }
 
 int kbhit(void) {
